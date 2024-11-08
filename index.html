@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerte o Mosquito - Feira de Ciências</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0f7fa;
+            animation: fadeIn 1.5s ease;
+            user-select: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #00796b;
+            margin-bottom: 20px;
+        }
+
+        .high-score {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        /* Modal Styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 350px;
+            width: 100%;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .modal-content p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+        }
+
+        .modal-button {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #00796b;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .modal-button:hover {
+            background-color: #004d40;
+        }
+
+        input[type="range"] {
+            width: 80%;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Acerte o Mosquito</h1>
+    <p class="high-score">Maior Pontuação: <span id="high-score">0</span></p>
+
+    <div class="button-container">
+        <button onclick="startGame()">Jogar</button>
+        <button onclick="showInstructions()">Instruções</button>
+        <button onclick="showSettings()">Configurações</button>
+    </div>
+
+    <div class="credits">
+        <p>Desenvolvido por Luckas Dantas</p>
+    </div>
+
+    <div class="modal" id="instructionsModal">
+        <div class="modal-content">
+            <h2>Instruções</h2>
+            <p>Toque nos mosquitos para acertá-los. Cada acerto revela uma dica sobre a dengue. Ganhe pontos e avance de nível!</p>
+            <div class="modal-buttons">
+                <button class="modal-button" onclick="closeModal('instructionsModal')">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h2>Configurações</h2>
+            <p>Ajuste o volume do jogo:</p>
+            <label>Som:</label>
+            <input type="range" id="soundVolume" min="0" max="100" value="50" oninput="updateVolume('soundVolume', this.value)">
+            <label>Música:</label>
+            <input type="range" id="musicVolume" min="0" max="100" value="50" oninput="updateVolume('musicVolume', this.value)">
+            <div class="modal-buttons">
+                <button class="modal-button" onclick="closeModal('settingsModal')">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('high-score').innerText = localStorage.getItem('highScore') || 0;
+
+        function startGame() {
+            window.location.href = 'game.html';
+        }
+
+        function showInstructions() {
+            document.getElementById('instructionsModal').style.visibility = 'visible';
+        }
+
+        function showSettings() {
+            document.getElementById('settingsModal').style.visibility = 'visible';
+            document.getElementById('soundVolume').value = localStorage.getItem('soundVolume') * 100 || 50;
+            document.getElementById('musicVolume').value = localStorage.getItem('musicVolume') * 100 || 50;
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.visibility = 'hidden';
+        }
+
+        function updateVolume(type, value) {
+            const volume = value / 100;
+            localStorage.setItem(type, volume);
+        }
+    </script>
+</body>
+</html>
