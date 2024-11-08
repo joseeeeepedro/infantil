@@ -50,7 +50,6 @@
             user-select: none;
         }
 
-        /* Ajuste de tamanho do mosquito em telas menores */
         @media (max-width: 600px) {
             .mosquito {
                 width: 80px;
@@ -193,8 +192,9 @@
             mosquito.className = 'mosquito';
             mosquito.draggable = false;
 
-            let posX = Math.random() * 90;
-            let posY = Math.random() * 75;
+            // Posicionamento ajustado para evitar que os mosquitos apareçam fora da tela
+            let posX = Math.random() * 85; // Limite reduzido para evitar bordas
+            let posY = Math.random() * 70; // Limite reduzido para evitar bordas
             mosquito.style.top = `${posY}vh`;
             mosquito.style.left = `${posX}vw`;
 
@@ -212,7 +212,8 @@
         }
 
         function playSound(sound) {
-            sound.currentTime = 0;
+            sound.pause();
+            sound.currentTime = 0; // Reinicia o som sempre que ele é tocado
             sound.play();
         }
 
@@ -240,7 +241,7 @@
         }
 
         function goToMenu() {
-            window.location.href = 'index.html';  // Altere o caminho conforme necessário
+            window.location.href = 'index.html';
         }
 
         window.onload = () => {
